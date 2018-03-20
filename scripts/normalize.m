@@ -6,8 +6,9 @@ function [X_norm, mu, sigma] = normalize(X)
     % @return sigma: the standard deviation of each column in the dataset
     %
 
+    sigma_epsilon = 0.000001;
     mu = mean(X);
-    sigma = std(X);
+    sigma = max(std(X), sigma_epsilon);
     X_norm = (X - mu) ./ sigma;
 
 end

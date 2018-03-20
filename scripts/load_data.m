@@ -1,4 +1,4 @@
-function [X, y] = load_data()
+function [X, y] = load_data(directory)
     %
     % Loads the Apple Braeburn and Banana images into a dataset X with features y.
     %
@@ -11,18 +11,14 @@ function [X, y] = load_data()
     BANANA_LABEL = 2;
 
     % Load files
-    apple_path = '../training/Apple Braeburn/';
-    banana_path = '../training/Banana/';
+    apple_path = ['../' directory '/Apple Braeburn/'];
+    banana_path = ['../' directory 'training/Banana/'];
 
     apple_files = dir([apple_path '*.jpg']);
     banana_files = dir([banana_path '*.jpg']);
 
-    %num_apples = length(apple_files);
-    %num_bananas = length(banana_files);
-    num_apples = 10;
-    num_bananas = 10;
-
-    display('initializing x and y datasets');
+    num_apples = length(apple_files);
+    num_bananas = length(banana_files);
 
     % Initialize dataset
     X = zeros(
@@ -32,7 +28,6 @@ function [X, y] = load_data()
     y = zeros(num_apples + num_bananas, 1);
 
     % Load apple images
-    display('loading apples');
     for i = 1:num_apples
         filename = [apple_path apple_files(i).name];
         I = imread(filename);
@@ -41,7 +36,6 @@ function [X, y] = load_data()
     end
 
     % Load banana images
-    display('loading bananas');
     for i = 1:num_bananas
         filename = [banana_path banana_files(i).name];
         I = imread(filename);

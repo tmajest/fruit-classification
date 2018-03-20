@@ -1,19 +1,17 @@
 
-function [Theta1, Theta2, cost] = neural_network(X, y, lambda, K)
+function [Theta1, Theta2, cost, mu, sigma] = neural_network(X, y, lambda, K)
     %
     % Trains the neural network.
     %
 
-    display('initializing neural network');
     num_neurons_1 = size(X, 2);
-    num_neurons_2 = size(X, 2) * 2;
+    num_neurons_2 = 50;
     num_neurons_3 = K;
 
-    display('updating x and y');
-    X2 = [ones(size(X, 1), 1), X];
+    [X_norm, mu, sigma] = normalize(X);
+    X_norm = [ones(size(X_norm, 1), 1), X_norm];
     y2 = update_labels(y, K);
     
-    display('initializing theta');
     Theta1 = random_theta(num_neurons_1, num_neurons_2);
     Theta2 = random_theta(num_neurons_2, num_neurons_3);
     init_theta_vec = [Theta1(:); Theta2(:)];
@@ -25,7 +23,7 @@ function [Theta1, Theta2, cost] = neural_network(X, y, lambda, K)
         num_neurons_1,
         num_neurons_2,
         K,
-        X2, y2, lambda);
+        X_norm, y2, lambda);
 
     options = optimset('GradObj', 'on', 'MaxIter', 50);
     [theta_vec, cost] = fmincg(compute_func, init_theta_vec, options);
